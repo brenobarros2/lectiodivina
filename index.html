@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUEIMA DE NOVO | Lectio Divina</title>
+    
+    <!-- Fontes: 'Anton' (Títulos Gigantes) e 'Inter' (Texto Técnico) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <!-- Ícones -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* --- VARIÁVEIS DE TEMA (Padrão: DARK) --- */
+        :root {
+            --bg-color: #000000;
+            --text-color: #ffffff;
+            --element-bg: #111111;
+            --border-color: #333333;
+            --accent-color: #ffffff;
+            --secondary-text: #888888;
+            --inverse-bg: #ffffff;
+            --inverse-text: #000000;
+        }
+
+        /* --- TEMA LIGHT (Sobrescreve as variáveis) --- */
+        body.light-theme {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --element-bg: #f4f4f4;
+            --border-color: #000000;
+            --accent-color: #000000;
+            --secondary-text: #555555;
+            --inverse-bg: #000000;
+            --inverse-text: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Container Principal */
+        .app-frame {
+            width: 100%;
+            max-width: 500px;
+            border: 3px solid var(--border-color); /* Borda mais grossa */
+            background: var(--bg-color);
+            padding: 0;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        /* --- BOTÃO DE TEMA --- */
+        .theme-toggle {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: transparent;
+            border: 2px solid var(--text-color);
+            color: var(--text-color);
+            padding: 5px 10px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .theme-toggle:hover {
+            background: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        /* --- CABEÇALHO --- */
+        header {
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 3px solid var(--border-color);
+            background: var(--bg-color);
+        }
+
+        .brand {
+            font-size: 0.7rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: var(--secondary-text);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        h1 {
+            font-family: 'Anton', sans-serif;
+            font-size: 4rem;
+            line-height: 0.9;
+            text-transform: uppercase;
+            color: var(--text-color);
+            margin: 0;
+        }
+
+        .tagline {
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* --- PLAYER SPOTIFY --- */
+        .music-deck {
+            background: var(--element-bg);
+            border-bottom: 3px solid var(--border-color);
+            padding: 15px;
+            position: relative;
+        }
+
+        .deck-label {
+            font-size: 0.6rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: var(--bg-color);
+            background: var(--text-color); /* Invertido para contraste */
+            padding: 2px 8px;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            border: 2px solid var(--border-color);
+        }
+
+        .music-deck iframe {
+            width: 100%;
+            height: 80px;
+            border: none;
+            /* Filtro inteligente: Inverte cores se estiver no tema light para manter contraste */
+            filter: grayscale(100%) contrast(120%);
+            opacity: 0.9;
+        }
+
+        /* --- ÁREA CENTRAL --- */
+        .main-display {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        /* Frase de Impacto */
+        .impact-phrase {
+            text-align: left;
+            border-left: 8px solid var(--text-color);
+            padding-left: 15px;
+            margin-bottom: 30px;
+        }
+
+        .impact-phrase h2 {
+            font-family: 'Anton', sans-serif;
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            line-height: 1.1;
+            color: var(--text-color);
+        }
+
+        /* Passos */
+        .step-badge {
+            display: inline-block;
+            border: 2px solid var(--border-color);
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            background: var(--inverse-bg);
+            color: var(--inverse-text);
+        }
+
+        .instruction-text {
+            color: var(--secondary-text);
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        /* Timer */
+        .timer-box {
+            background: var(--element-bg);
+            border: 2px solid var(--border-color);
+            padding: 20px 0;
+            margin: 20px 0;
+        }
+
+        .timer-digits {
+            font-family: 'Anton', sans-serif;
+            font-size: 6rem;
+            color: var(--text-color);
+            line-height: 1;
+        }
+
+        /* --- BOTÕES --- */
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 20px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1rem;
+            cursor: pointer;
+            border: 3px solid var(--text-color); /* Borda grossa */
+            transition: all 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 5px 5px 0px var(--secondary-text); /* Sombra sólida brutalista */
+        }
+        
+        .btn:active {
+            box-shadow: none;
+            transform: translate(5px, 5px);
+        }
+
+        /* Primário (Invertido) */
+        .btn-primary {
+            background: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        /* Secundário (Outline) */
+        .btn-secondary {
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        /* --- INPUT --- */
+        #acao-container {
+            display: none;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .input-label {
+            font-family: 'Anton', sans-serif;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            color: var(--text-color);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        textarea {
+            width: 100%;
+            background: var(--element-bg);
+            border: 2px solid var(--border-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            padding: 15px;
+            min-height: 150px;
+            resize: none;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--text-color);
+        }
+
+        /* RESPONSIVO */
+        @media (max-width: 400px) {
+            h1 { font-size: 3rem; }
+            .timer-digits { font-size: 5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-frame">
+        
+        <!-- Botão de Alternar Tema -->
+        <button class="theme-toggle" onclick="toggleTheme()">
+            <i data-lucide="sun-moon"></i> Mudar Tema
+        </button>
+
+        <header>
+            <span class="brand">Lectio Divina</span>
+            <h1>Queima<br>De Novo</h1>
+            <p class="tagline">5 Passos</p>
+        </header>
+
+        <div class="music-deck">
+            <span class="deck-label">Atmosfera // Focus Lo-Fi</span>
+            <iframe src="https://open.spotify.com/embed/playlist/0vvXsWCC9xrXsKd4FyS8kM?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+
+        <div class="main-display">
+            
+            <div class="impact-phrase">
+                <h2 id="frase-guia">PREPARE-SE PARA O INCÊNDIO.</h2>
+            </div>
+
+            <div class="step-badge" id="passo-titulo">INÍCIO</div>
+
+            <p class="instruction-text" id="passo-instrucao">
+                Encontre um lugar silencioso.<br>
+                Dê play na música acima.<br>
+                Clique em <strong>INICIAR</strong> para começar a oração.
+            </p>
+
+            <div class="timer-box">
+                <div class="timer-digits" id="timer-display">10:00</div>
+            </div>
+
+            <div id="acao-container">
+                <label class="input-label">SUA MISSÃO DE HOJE:</label>
+                <textarea id="acao-texto" placeholder="Escreva aqui sua decisão concreta..."></textarea>
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-primary" id="start-button" onclick="iniciarOracao()">
+                    INICIAR ORAÇÃO <i data-lucide="arrow-right"></i>
+                </button>
+                
+                <button class="btn btn-secondary" id="next-button" onclick="proximoPasso()" style="display: none;">
+                    <span id="btn-text">PRÓXIMO PASSO</span> 
+                    <i data-lucide="chevron-right"></i>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // --- SELEÇÃO DE ELEMENTOS DOM (Importante para evitar ReferenceError) ---
+        const fraseGuia = document.getElementById('frase-guia');
+        const passoTitulo = document.getElementById('passo-titulo');
+        const passoInstrucao = document.getElementById('passo-instrucao');
+        const timerDisplay = document.getElementById('timer-display');
+        const acaoContainer = document.getElementById('acao-container');
+        const acaoTexto = document.getElementById('acao-texto');
+        const startButton = document.getElementById('start-button');
+        const nextButton = document.getElementById('next-button');
+        const btnText = document.getElementById('btn-text');
+
+        // --- LÓGICA DE TEMA ---
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+            const isLight = document.body.classList.contains('light-theme');
+            localStorage.setItem('aura_theme', isLight ? 'light' : 'dark');
+        }
+
+        // Carregar tema salvo
+        if (localStorage.getItem('aura_theme') === 'light') {
+            document.body.classList.add('light-theme');
+        }
+
+        // --- DADOS & LÓGICA DO TIMER ---
+        const passos = [
+            {
+                titulo: "PASSO 1: LEITURA",
+                instrucao: "Leia o texto em silêncio, depois em voz alta. Saboreie as palavras. Observe o local, os personagens e o contexto.",
+                frase_guia: "NÃO É POSSÍVEL UNIR-SE A DEUS SEM SE PURIFICAR."
+            },
+            {
+                titulo: "PASSO 2: MEDITAÇÃO",
+                instrucao: "Pergunte-se: 'Como esse texto faz sentido pra mim?' 'Qual parte chamou mais atenção?' Medite sobre como a passagem confronta sua vida.",
+                frase_guia: "O OBJETIVO É A UNIÃO. O EFEITO É A FELICIDADE."
+            },
+            {
+                titulo: "PASSO 3: ORAÇÃO",
+                instrucao: "Deus falou com você. Agora é sua vez de falar com Ele. Responda a Ele sobre o que foi lido e meditado.",
+                frase_guia: "É A ORAÇÃO QUE MATA A CARNE."
+            },
+            {
+                titulo: "PASSO 4: CONTEMPLAÇÃO",
+                instrucao: "As palavras acabam. Contemple a presença de Deus, sua resposta ou seu silêncio. Você pode suavemente orar em línguas.",
+                frase_guia: "CONHECER PARA AMAR."
+            },
+            {
+                titulo: "PASSO 5: AÇÃO",
+                instrucao: "Chegou o momento de escolher uma ação prática para que a palavra se torne viva. A oração sem ação é morta. O que você vai mudar na sua vida HOJE por causa dessa Palavra?",
+                frase_guia: "SANTIDADE É DECISÃO."
+            }
+        ];
+
+        let currentStep = -1;
+        let timer;
+        let tempoSegundos = 10 * 60;
+        
+        const somSino = new Audio('data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTBDZAAAAAABn/8RgoRFLVO/+8DIAAAG4AqsHgoBAAACAcAArEAD/7wFpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaAllowsCxAAAALgGasYAAAnVlYmVDAAAAE5yZ1r/rQJcOa4iwsMCtEACgAAAAAAD//v9////9/+e3lpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWMultiugCxAAAAJqZmYv+GUeAABXp//McIMAAAABcAAANIAAAAABGFkZXAAAAABn/8RgoRFLVO/+8DIAAAG4AqsHgoBAAACAcAArEAD/7wFpaWlpaWlpaWlpaWlpaWlpaWlpaWaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWpM1BBoAIBKAFo5qGkPAAAGEBEmkR+gBQEwzJxEZRhAFAf/iNGDAqAEYEwAAGD0aIMCAYAwBgwRADGDAwRgTAADAFAGDAARgTAYAYAAYAwBgBABgTAAAAGYAwYAAAAGYMAAAAAGYAwAAAAAZgDAAAAAAGYMAAAAAAZgDACYABGAAGYAwYAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDaATEoAHEFmOQYAAADAEiVBt0M0K0AwDAmjRoTCAKD/8EaMAAIBGAACD0aIMCABgDADBGAARgTAAAYAAYAwBgBABgTAYAYAAYAwBgBABgTAAAAGYAwYAAAAGYMAAAAAGYAwAAAAAZgDAAAAAAGYMAAAAAAZgDACYABGAAGYAwYAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgD/T//EYIIRBNaW5lZElEVEFUSVAv/8+AIAAALEIAAEGAAAFBv/+sYAAAAANIAAAAABoWCBsA8A');
+
+        function tocarSino() {
+            if (somSino) somSino.play().catch(() => {});
+        }
+
+        function iniciarOracao() {
+            tocarSino();
+            if(somSino) { somSino.pause(); somSino.currentTime = 0; }
+
+            startButton.style.display = 'none';
+            nextButton.style.display = 'flex';
+            currentStep = 0;
+            mostrarPasso();
+        }
+
+        function proximoPasso() {
+            if (currentStep < passos.length - 1) {
+                currentStep++;
+                mostrarPasso();
+            } else {
+                alert("Sua Lectio Divina está completa. Vá e incendeie o mundo!");
+                location.reload();
+            }
+        }
+
+        function mostrarPasso() {
+            const passo = passos[currentStep];
+            
+            fraseGuia.innerText = passo.frase_guia;
+            passoTitulo.innerText = passo.titulo;
+            passoInstrucao.innerText = passo.instrucao;
+            
+            if (currentStep === passos.length - 1) { 
+                acaoContainer.style.display = 'block'; 
+                btnText.innerText = 'FINALIZAR ORAÇÃO';
+            } else { 
+                acaoContainer.style.display = 'none';
+                btnText.innerText = 'PRÓXIMO PASSO';
+            }
+            
+            iniciarTimer();
+        }
+
+        function iniciarTimer() {
+            if (timer) clearInterval(timer);
+            tempoSegundos = 10 * 60; 
+            updateDisplay(tempoSegundos);
+            
+            timer = setInterval(() => {
+                tempoSegundos--;
+                updateDisplay(tempoSegundos);
+                if (tempoSegundos <= 0) {
+                    clearInterval(timer);
+                    timerDisplay.innerText = "00:00";
+                    tocarSino();
+                    alert("TEMPO ESGOTADO.");
+                }
+            }, 1000);
+        }
+
+        function updateDisplay(segundosTotais) {
+            let minutos = Math.floor(segundosTotais / 60);
+            let segundos = segundosTotais % 60;
+            minutos = minutos < 10 ? '0' + minutos : minutos;
+            segundos = segundos < 10 ? '0' + segundos : segundos;
+            timerDisplay.innerText = `${minutos}:${segundos}`;
+        }
+
+        // Persistência
+        if (localStorage.getItem('lectioAcao')) {
+            acaoTexto.value = localStorage.getItem('lectioAcao');
+        }
+        acaoTexto.addEventListener('input', () => {
+            localStorage.setItem('lectioAcao', acaoTexto.value);
+        });
+    </script>
+</body>
+</html>
