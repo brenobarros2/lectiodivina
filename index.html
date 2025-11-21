@@ -1,26 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-N1D21SL0EB"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-N1D21SL0EB"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-  gtag('config', 'G-N1D21SL0EB');
-</script>
+      gtag('config', 'G-N1D21SL0EB');
+    </script>
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QUEIMA DE NOVO | Lectio Divina</title>
     
-    <!-- Fontes: 'Anton' (Títulos Gigantes) e 'Inter' (Texto Técnico) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 
-    <!-- Ícones -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
@@ -297,6 +294,20 @@
             border-color: var(--text-color);
         }
 
+        /* --- NEWSLETTER FIX (BEEHIIV IFRAME) --- */
+        #newsletter-container {
+            display: none; /* Começa escondido */
+            margin-top: 30px;
+            border-top: 3px solid var(--border-color);
+            padding-top: 30px;
+            text-align: left;
+        }
+        /* Força o iframe a ocupar a largura total e ter altura suficiente */
+        .beehiiv-embed {
+            width: 100% !important;
+            min-height: 220px; /* Garante espaço para o formulário */
+        }
+
         /* RESPONSIVO */
         @media (max-width: 400px) {
             h1 { font-size: 3rem; }
@@ -308,7 +319,6 @@
 
     <div class="app-frame">
         
-        <!-- Botão de Alternar Tema -->
         <button class="theme-toggle" onclick="toggleTheme()">
             <i data-lucide="sun-moon"></i> Mudar Tema
         </button>
@@ -347,6 +357,18 @@
                 <textarea id="acao-texto" placeholder="Escreva aqui sua decisão concreta..."></textarea>
             </div>
 
+            <div id="newsletter-container">
+                <div class="impact-phrase" style="margin-bottom: 15px; border-left: none; padding-left: 0;">
+                    <h2>A CHAMA PRECISA DE COMBUSTÍVEL DIÁRIO.</h2>
+                </div>
+                <p class="instruction-text">
+                    Não deixe o incêndio apagar. Receba a próxima fagulha diretamente no seu e-mail.
+                </p>
+                
+                <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
+                <iframe src="https://subscribe-forms.beehiiv.com/3bafa617-e00e-4bd9-8db3-a52198a46e23" class="beehiiv-embed" data-test-id="beehiiv-embed" frameborder="0" scrolling="no" style="width: 450px; height: 182px; margin: 0; border-radius: 0px 0px 0px 0px !important; background-color: transparent; box-shadow: 0 0 #0000; max-width: 100%;"></iframe>
+                </div>
+
             <div class="controls">
                 <button class="btn btn-primary" id="start-button" onclick="iniciarOracao()">
                     INICIAR ORAÇÃO <i data-lucide="arrow-right"></i>
@@ -374,6 +396,8 @@
         const startButton = document.getElementById('start-button');
         const nextButton = document.getElementById('next-button');
         const btnText = document.getElementById('btn-text');
+        const controlsDiv = document.querySelector('.controls'); // Seleciona o container dos botões
+        const newsletterContainer = document.getElementById('newsletter-container'); // Seleciona a newsletter
 
         // --- LÓGICA DE TEMA ---
         function toggleTheme() {
@@ -420,7 +444,7 @@
         let timer;
         let tempoSegundos = 10 * 60;
         
-        const somSino = new Audio('data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTBDZAAAAAABn/8RgoRFLVO/+8DIAAAG4AqsHgoBAAACAcAArEAD/7wFpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaAllowsCxAAAALgGasYAAAnVlYmVDAAAAE5yZ1r/rQJcOa4iwsMCtEACgAAAAAAD//v9////9/+e3lpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWMultiugCxAAAAJqZmYv+GUeAABXp//McIMAAAABcAAANIAAAAABGFkZXAAAAABn/8RgoRFLVO/+8DIAAAG4AqsHgoBAAACAcAArEAD/7wFpaWlpaWlpaWlpaWlpaWlpaWlpaWaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWpM1BBoAIBKAFo5qGkPAAAGEBEmkR+gBQEwzJxEZRhAFAf/iNGDAqAEYEwAAGD0aIMCAYAwBgwRADGDAwRgTAADAFAGDAARgTAYAYAAYAwBgBABgTAAAAGYAwYAAAAGYMAAAAAGYAwAAAAAZgDAAAAAAGYMAAAAAAZgDACYABGAAGYAwYAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDaATEoAHEFmOQYAAADAEiVBt0M0K0AwDAmjRoTCAKD/8EaMAAIBGAACD0aIMCABgDADBGAARgTAAAYAAYAwBgBABgTAYAYAAYAwBgBABgTAAAAGYAwYAAAAGYMAAAAAGYAwAAAAAZgDAAAAAAGYMAAAAAAZgDACYABGAAGYAwYAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgD/T//EYIIRBNaW5lZElEVEFUSVAv/8+AIAAALEIAAEGAAAFBv/+sYAAAAANIAAAAABoWCBsA8A');
+        const somSino = new Audio('data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTBDZAAAAAABn/8RgoRFLVO/+8DIAAAG4AqsHgoBAAACAcAArEAD/7wFpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWait/8RgoRFLVO/+8DIAAAG4AqsHgoBAAACAcAArEAD/7wFpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWlpaWpM1BBoAIBKAFo5qGkPAAAGEBEmkR+gBQEwzJxEZRhAFAf/iNGDAqAEYEwAAGD0aIMCAYAwBgwRADGDAwRgTAADAFAGDAARgTAYAYAAYAwBgBABgTAAAAGYAwYAAAAGYMAAAAAGYAwAAAAAZgDAAAAAAGYMAAAAAAZgDACYABGAAGYAwYAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDaATEoAHEFmOQYAAADAEiVBt0M0K0AwDAmjRoTCAKD/8EaMAAIBGAACD0aIMCABgDADBGAARgTAAAYAAYAwBgBABgTAYAYAAYAwBgBABgTAAAAGYAwYAAAAGYMAAAAAGYAwAAAAAZgDAAAAAAGYMAAAAAAZgDACYABGAAGYAwYAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgDAAAAAAGYMAAAAAAZgD/T//EYIIRBNaW5lZElEVEFUSVAv/8+AIAAALEIAAEGAAAFBv/+sYAAAAANIAAAAABoWCBsA8A');
 
         function tocarSino() {
             if (somSino) somSino.play().catch(() => {});
@@ -438,11 +462,30 @@
 
         function proximoPasso() {
             if (currentStep < passos.length - 1) {
+                // SE AINDA TEM PASSOS, CONTINUA NORMAL
                 currentStep++;
                 mostrarPasso();
             } else {
-                alert("Sua Lectio Divina está completa. Vá e incendeie o mundo!");
-                location.reload();
+                // CHEGOU AO FIM DA ORAÇÃO.
+                // Toca o sino final
+                tocarSino();
+                
+                // Esconde os elementos da oração
+                passoTitulo.style.display = 'none';
+                passoInstrucao.style.display = 'none';
+                timerDisplay.parentElement.style.display = 'none'; // Esconde o timer-box
+                acaoContainer.style.display = 'none';
+                controlsDiv.style.display = 'none'; // Esconde os botões
+                fraseGuia.parentElement.style.display = 'none'; // Esconde a frase guia
+
+                // Mostra a área da Newsletter
+                newsletterContainer.style.display = 'block';
+                
+                // Rola a página suavemente para focar na newsletter
+                newsletterContainer.scrollIntoView({ behavior: 'smooth' });
+
+                // Limpa o armazenamento da ação para a próxima vez
+                localStorage.removeItem('lectioAcao');
             }
         }
 
